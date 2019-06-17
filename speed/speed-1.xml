@@ -1,1 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestSuite name="speed suite">
+<TestCase name="speed testcase 1" before="10" after="15" loadxml="/test/speed/mdvr.xml">
+	 <object class="mdvr" name="mdvr-d5">
+    	<!--登录设备-->
+    	<object class="function" name="login">
+     	</object>
+    	<object class="function" name="sleep">
+    		<param name="duration">15</param>
+    	</object>
+    	<!--设置速度来源(脉冲)-->
+    	<object class="function" name="setconfig">
+    		<param name="file">script/test/fatigue/speedsource-1.json</param>
+    	</object>
+   </object> 
+   
+    <!--初始化一个工装-->
+    <object class="tooling" name="工装">
+    	<object class="function" name="connect">
+    		<param name="ip">192.168.20.136</param>
+    		<param name="port">8088</param>
+    	</object>
+    	<!--脉冲速度初始化为0-->
+    	<object class="function" name="setpulse">
+    		<param name="speed">0</param>
+    		<param name="factor">36000</param>
+    	</object>
+    	<!--启动设备电源-->
+    	<object class="function" name="setdc">
+    		<param name="dc">1</param>
+      </object>
+    </object>
 
+    <!--初始化一台MDVR D5的设备-->
+    <object class="mdvr" name="d5">        	    	
+	    <object class="tooling" name="工装">
+	    	<!--设置车辆速度-->
+	    	<object class="function" name="setpulse">
+	    		<param name="speed">20</param>
+	    		<param name="factor">36000</param>
+	    	</object>
+	    	<object class="function" name="sleep">
+	    		<param name="duration">5</param>
+	    	</object>
+	    </object>
+	  </object>
+	  
+    <object class=”function” name=”setacc”>
+      <param name=”acc”>0</param>
+    </object> 
+	  <object class="function" name="sleep">
+	    	<param name="duration">2</param>
+	  </object> 
+	  <!--检测设备当前速度，断开ACC-->   
+	  
+	  <object class=”function” name=”setacc”>
+      <param name=”acc”>1</param>
+    </object> 
+	  <object class="function" name="sleep">
+	    	<param name="duration">2</param>
+	  </object> 
+	  <!--检测设备当前速度，重新连接ACC--> 
+  	<!--登出设备-->
+  	<object class="function" name="logout">
+		</object>
+   </object> 
+   
+   <!--停车将脉冲速度置为0-->
+   <object class="tooling" name="工装">
+	  	<!--速度归零-->
+	  	<object class="function" name="setpulse">
+	  		<param name="speed">0</param>
+	  		<param name="factor">36000</param>
+	  	</object>
+   </object>
+   
+   <!--停止808服务器-->
+   <object class="808server" name="808serverdemo">
+      <object class="function" name="stopserver">
+      </object>
+   </object>
+</TestCase>
+</TestSuite>
